@@ -18,6 +18,10 @@ RSpec.describe 'garden show page' do
     PlantPlot.create!(plant: @plant_3, plot: @plot_1)
     PlantPlot.create!(plant: @plant_4, plot: @plot_2)
     PlantPlot.create!(plant: @plant_1, plot: @plot_2)
+
+    @plot_3 = @garden_1.plots.create!(number: 4, size: 'Medium', direction: "Southwest")
+    PlantPlot.create!(plant: @plant_2, plot: @plot_2) ##
+    PlantPlot.create!(plant: @plant_2, plot: @plot_3) ##
   end
 
   it 'has the name of the garden' do
@@ -33,4 +37,18 @@ RSpec.describe 'garden show page' do
     expect(page).to_not have_content("#{@plant_3.name}")
   end
 
+  it 'has list of sorted harvestable plants by most appearances in garden to fewest' do
+      visit "/gardens/#{@garden_1.id}"
+
+    expect(page.all(".plants")[0].text).to eq(@plant_2.name)
+    expect(page.all(".plants")[1].text).to eq(@plant_1.name)
+    expect(page.all(".plants")[2].text).to eq(@plant_4.name)
+  end
+
+  it 'has orderly list of sorted harvestable plants by most appearances in garden to fewest' do
+      visit "/gardens/#{@garden_1.id}"
+
+    expect(@plant_2.name).to appear_before(@plant_1.name)
+    expect(@plant_1.name).to appear_before(@plant_4.name)
+  end
 end

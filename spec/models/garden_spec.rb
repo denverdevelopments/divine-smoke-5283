@@ -18,6 +18,10 @@ RSpec.describe Garden do
     PlantPlot.create!(plant: @plant_3, plot: @plot_1)
     PlantPlot.create!(plant: @plant_4, plot: @plot_2)
     PlantPlot.create!(plant: @plant_1, plot: @plot_2)
+
+    @plot_3 = @garden_1.plots.create!(number: 4, size: 'Medium', direction: "Southwest")
+    PlantPlot.create!(plant: @plant_2, plot: @plot_2) ##
+    PlantPlot.create!(plant: @plant_2, plot: @plot_3) ##
   end
 
   describe 'relationships' do
@@ -25,10 +29,17 @@ RSpec.describe Garden do
   end
 
   describe 'instance methods' do
-    describe '.plants_harvestable_99' do
-      it 'names plants taking less than 100 days to harvest, no duplicates' do
+    # describe '.plants_harvestable_99' do  ##user story 3
+    #   it 'names plants taking less than 100 days to harvest, no duplicates' do
+    #
+    #   expect(@garden_1.plants_harvestable_99).to eq([@plant_1, @plant_2, @plant_4])
+    #   end
+    # end
 
-      expect(@garden_1.plants_harvestable_99).to eq([@plant_1, @plant_2, @plant_4])
+    describe '.harvestable_appearing_most' do  ##extension
+      it 'sorts harvestable plants by most appearances in garden to fewest' do
+
+      expect(@garden_1.harvestable_appearing_most).to eq([@plant_2, @plant_1, @plant_4])
       end
     end
   end
