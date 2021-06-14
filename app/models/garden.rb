@@ -1,4 +1,7 @@
 class Garden < ApplicationRecord
+  validates :name, presence: true
+  validates :organic, inclusion: [true, false]
+
   has_many :plots
 
   # def plants_harvestable_99 ##user story 3

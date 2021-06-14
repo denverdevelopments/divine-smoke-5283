@@ -28,6 +28,11 @@ RSpec.describe Garden do
     it { should have_many(:plots) }
   end
 
+  describe 'validations' do
+    it { should validate_presence_of(:name) }
+    it { should allow_value([true, false]).for(:organic) }
+  end
+
   describe 'instance methods' do
     # describe '.plants_harvestable_99' do  ##user story 3
     #   it 'names plants taking less than 100 days to harvest, no duplicates' do
