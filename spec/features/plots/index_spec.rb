@@ -25,7 +25,7 @@ RSpec.describe 'the plots index page' do
     PlantPlot.create!(plant: @plant_6, plot: @plot_3)
   end
 
-  it 'shows all the plot numbers with plot plants, and remove plant links' do
+  it 'shows all the plot numbers with plot plants, with links to remove the plant' do
       visit "/plots"
       expect(page).to have_content("Plots Index")
 
@@ -38,12 +38,14 @@ RSpec.describe 'the plots index page' do
         expect(page).to have_link("Remove #{@plant_2.name}")
         expect(page).to have_content("#{@plant_3.name}")
         expect(page).to have_link("Remove #{@plant_3.name}")
+        expect(page).to_not have_content("#{@plant_4.name}")
       end
 
       within("#plot-#{@plot_2.id}") do
         expect(page).to have_content("#{@plot_2.number}")
         expect(page).to have_content("#{@plant_4.name}")
         expect(page).to have_link("Remove #{@plant_4.name}")
+        expect(page).to_not have_content("#{@plant_5.name}")
       end
 
       within("#plot-#{@plot_3.id}") do
@@ -52,6 +54,7 @@ RSpec.describe 'the plots index page' do
         expect(page).to have_link("Remove #{@plant_5.name}")
         expect(page).to have_content("#{@plant_6.name}")
         expect(page).to have_link("Remove #{@plant_6.name}")
+        expect(page).to_not have_content("#{@plant_1.name}")
       end
 
       within("#plot-#{@plot_4.id}") do
@@ -61,7 +64,7 @@ RSpec.describe 'the plots index page' do
     end
   end
 
-  it 'has a link to remove a plant from a plot' do
+  it 'link to remove a plant from a plot removes plant from plot plants list' do
         visit "/plots"
       expect(page).to have_content("#{@plot_1.number}")
       expect(page).to have_content("#{@plant_1.name}")
